@@ -32,21 +32,22 @@ class App extends Component {
       ] 
     })
   }
-
-  togglePersonsHandler= () =>
-  {
-    let toggler;
-    this.state.showPersons === false ? toggler = true : toggler = false;
-    this.setState({
-      showPersons: toggler
-    })
-  }
   listHandler = () => 
   {
     let toggler;
     this.state.showList == false ? toggler = true : toggler = false;
     this.setState({
       showList: toggler
+    })
+  }
+  deletePersonHandler = (id) =>
+  {
+    const persons = this.state.persons;
+    console.log(persons)
+    persons.splice(id, 1); // removes an element from the array
+    console.log(persons);
+    this.setState({
+      persons
     })
   }
 
@@ -71,28 +72,18 @@ class App extends Component {
       <div className="App">
         <h1>hi from react</h1>
         {/* return a function call  this can be ineficient*/}
-        <button 
-          onClick={this.togglePersonsHandler}
-          style={style}
-          >Switch name</button>
           <button onClick={this.listHandler}>toggle list</button>
           {items}
           {this.state.persons.map((person, id) => {
-            return <Person key={id} name={person.name} age={person.age} />
+            return <Person 
+              key={id} 
+              name={person.name} 
+              age={person.age} 
+              click={() => this.deletePersonHandler(id)} 
+              changed={this.nameChangeHandler}
+              />
           })}
 
-          { this.state.showPersons ? 
-            
-            <div >
-          <Person name={this.state.persons[0].name} age={this.state.persons[0].age}/>
-          <Person 
-          name={this.state.persons[1].name} age={this.state.persons[1].age}
-          click={this.nameHandler.bind(this, "maximilian")}
-          changed={this.nameChangeHandler}
-          >My hobbies: Racing</Person>
-          <Person name={this.state.persons[2].name } age={this.state.persons[2].age}/>  
-          </div> : null}
-      
       </div>
     );
   }
