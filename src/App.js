@@ -77,6 +77,9 @@ class App extends Component {
           >Switch name</button>
           <button onClick={this.listHandler}>toggle list</button>
           {items}
+          {this.state.persons.map((person, id) => {
+            return <Person key={id} name={person.name} age={person.age} />
+          })}
 
           { this.state.showPersons ? 
             
