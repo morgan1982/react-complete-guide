@@ -5,47 +5,48 @@ import './App.css';
 class App extends Component {
   state = {
     persons: [
-      {name: 'max', age: 28},
-      {name: 'tom', age: 32},
-      {name: 'antony', age: 29}
+      {id: '1', name: 'max', age: 28},
+      {id: '2', name: 'tom', age: 32},
+      {id: '3', name: 'antony', age: 29}
     ],
     showPersons: false,
     showList: false
   }
 
-  nameHandler = (name) => {
-    this.setState({
-      persons: [
-        {name: name, age: 50},
-        {name: 'tom', age: 30},
-        {name: 'julia', age: 34}
-      ]
-    })
-  }
+  nameChangeHandler = (e, id) => {
+    const personIndex = this.state.persons.findIndex((p) => {
+      return p.id === id;
+    });
+    // dont mutate the state directly (person is just a pointer!)
+    const person = {
+      ...this.state.persons[personIndex]
+    } 
+    // const person = Object.assgn({}, this.state.persons[personIndex])
 
-  nameChangeHandler = (e) => {
+    person.name = e.target.value;
+
+    // again a copy of the state
+    const persons = [...this.state.persons];
+    persons[personIndex] = person; // changes the selected person object
+
+    // update the original state
     this.setState({
-      persons: [
-        {name: "michael", age: 20},
-        {name: e.target.value, age: 30},
-        {name: 'julia', age: 34}
-      ] 
+      persons
     })
   }
   listHandler = () => 
   {
     let toggler;
-    this.state.showList == false ? toggler = true : toggler = false;
+    this.state.showList === false ? toggler = true : toggler = false;
     this.setState({
       showList: toggler
     })
   }
   deletePersonHandler = (id) =>
   {
-    const persons = this.state.persons;
-    console.log(persons)
+    // const persons = this.state.persons.slice(); //or
+    const persons = [...this.state.persons];
     persons.splice(id, 1); // removes an element from the array
-    console.log(persons);
     this.setState({
       persons
     })
@@ -74,13 +75,13 @@ class App extends Component {
         {/* return a function call  this can be ineficient*/}
           <button onClick={this.listHandler}>toggle list</button>
           {items}
-          {this.state.persons.map((person, id) => {
+          {this.state.persons.map((person, index) => {
             return <Person 
-              key={id} 
+              key={person.id} 
               name={person.name} 
               age={person.age} 
-              click={() => this.deletePersonHandler(id)} 
-              changed={this.nameChangeHandler}
+              click={() => this.deletePersonHandler(index)} 
+              changed={(e) => this.nameChangeHandler(e, person.id)}
               />
           })}
 
