@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Person from './Person/Person';
-import './App.css';
+import classes from './App.css';
+// for use of a css class globally use the :global prefix to the class selector
 
 class App extends Component {
   state = {
@@ -53,17 +54,14 @@ class App extends Component {
   }
 
   render() {
-    const style = {
-      backgroundColor: 'green',
-      color: 'white',
-      font: 'inherit',
-      border: '1px solid blue',
-      padding: '8px',
-      cursor: 'pointer',
-    }
+
     let persons = null;
+    let btnClasses = ''
      if (this.state.showList)
      {
+      btnClasses = classes.Red; // css-loader will give a string!
+
+
       persons = (
         <div>
         {this.state.persons.map((person, index) => {
@@ -76,31 +74,27 @@ class App extends Component {
           })}
       </div>
         );
-        style.backgroundColor = 'red';
-        style[':hover'] = {
-          backgroundColor: 'tomato',
-          color: 'black'
-        }
       }
 
-      let classes = [];
+      let assignedClasses = [];
       if (this.state.persons.length <= 2) 
       {
-        classes.push('red');
+        assignedClasses.push(classes.red);
       }
       if (this.state.persons.length <= 1)
       {
-        classes.push('bold'); // classes red and bold
+        assignedClasses.push(classes.bold); // classes red and bold
       }
+      
 
 
     return (
 
-      <div className="App">
+      <div className={classes.App}>
         <h1>hi from react</h1>
-        <p className={classes.join(' ')}>index</p>
+        <p className={assignedClasses.join(' ')}>index</p>
         {/* return a function call  this can be ineficient*/}
-          <button onClick={this.listHandler} style={style}>toggle list</button>
+          <button onClick={this.listHandler} className={btnClasses}>toggle list</button>
           {persons}
       </div>
     );
