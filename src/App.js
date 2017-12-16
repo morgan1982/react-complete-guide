@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Person from './Person/Person';
+import ErrorBountry from './ErrorBoundary/ErrorBoundary';
 import classes from './App.css';
 // for use of a css class globally use the :global prefix to the class selector
 
@@ -65,12 +66,12 @@ class App extends Component {
       persons = (
         <div>
         {this.state.persons.map((person, index) => {
-            return <Person
+            return <ErrorBountry  key={person.id}><Person
             click={() => this.deletePersonHandler(index)}
             name={person.name}
             age={person.age}
-            key={person.id}
             changed={(event) => this.nameChangeHandler(event, person.id)} />
+            </ErrorBountry>
           })}
       </div>
         );
