@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import Person from './Person/Person';
 import './App.css';
-import Radium, { StyleRoot } from 'radium';
 
 class App extends Component {
   state = {
@@ -61,10 +60,6 @@ class App extends Component {
       border: '1px solid blue',
       padding: '8px',
       cursor: 'pointer',
-      ':hover': {
-        backgroundColor: 'lightgreen',
-        color: 'black'
-      }
     }
     let persons = null;
      if (this.state.showList)
@@ -100,7 +95,7 @@ class App extends Component {
 
 
     return (
-      <StyleRoot>
+
       <div className="App">
         <h1>hi from react</h1>
         <p className={classes.join(' ')}>index</p>
@@ -108,10 +103,9 @@ class App extends Component {
           <button onClick={this.listHandler} style={style}>toggle list</button>
           {persons}
       </div>
-      </StyleRoot>
     );
   
   }
 }
 
-export default Radium(App);
+export default App;
