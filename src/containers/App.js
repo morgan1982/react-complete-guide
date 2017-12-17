@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import Person from './Person/Person';
-import ErrorBountry from './ErrorBoundary/ErrorBoundary';
+import Persons from '../components/Persons/Persons';
+import ErrorBountry from '../ErrorBoundary/ErrorBoundary';
 import classes from './App.css';
+import Cockpit from '../components/Cockpit/Cockpit';
 // for use of a css class globally use the :global prefix to the class selector
 
 class App extends Component {
@@ -57,45 +58,24 @@ class App extends Component {
   render() {
 
     let persons = null;
-    let btnClasses = ''
      if (this.state.showList)
      {
-      btnClasses = classes.Red; // css-loader will give a string!
-
-
-      persons = (
-        <div>
-        {this.state.persons.map((person, index) => {
-            return <ErrorBountry  key={person.id}><Person
-            click={() => this.deletePersonHandler(index)}
-            name={person.name}
-            age={person.age}
-            changed={(event) => this.nameChangeHandler(event, person.id)} />
-            </ErrorBountry>
-          })}
-      </div>
-        );
+      persons = <Persons
+          persons={this.state.persons}
+          clicked={this.deletePersonHandler}
+          changed={this.nameChangeHandler}
+          />
       }
-
-      let assignedClasses = [];
-      if (this.state.persons.length <= 2) 
-      {
-        assignedClasses.push(classes.red);
-      }
-      if (this.state.persons.length <= 1)
-      {
-        assignedClasses.push(classes.bold); // classes red and bold
-      }
-      
-
 
     return (
 
       <div className={classes.App}>
-        <h1>hi from react</h1>
-        <p className={assignedClasses.join(' ')}>index</p>
-        {/* return a function call  this can be ineficient*/}
-          <button onClick={this.listHandler} className={btnClasses}>toggle list</button>
+          <Cockpit
+          appTitle={this.props.title}
+          showPersons={this.state.showList}
+          persons={this.state.persons}
+          clicked={this.listHandler}
+          />
           {persons}
       </div>
     );
